@@ -9,14 +9,13 @@ import java.util.Scanner;
 import java.lang.String;
 
 public class LL1 {
-
 	// Initialize variables
 	static int x = 0, y = 0, z = 0;
 	static int size = 0;
 	static char tempChar = '\0';
 	static String tempInt = "";
 	static String expr = "";
-	static String current = "";
+	static String currentToken = "";
 	static String[] tokens;
 	static String[] tempTokens = new String[100];
 
@@ -57,8 +56,8 @@ public class LL1 {
 	
 	/* Method that retrieves the next token to test */
 	static void next() {
-		current = tokens[y];
-		System.out.println("CURRENT" + current); // TEST 
+		currentToken = tokens[y];
+		System.out.println("current token: " + currentToken); // TEST 
 		y++;
 	}
 
@@ -81,11 +80,11 @@ public class LL1 {
 
 	/* Method for E' -> TE' */
 	static int parseEPrime(int x) {
-		if (current.equals("+")) {
+		if (currentToken.equals("+")) {
 			next();
 			int z = parseT();
 			return parseEPrime(x+z);
-		} else if (current.equals(")") || current.equals("$")) {
+		} else if (currentToken.equals(")") || currentToken.equals("$")) {
 			return x;
 		} else {
 			error();
@@ -101,11 +100,11 @@ public class LL1 {
 
 	/* Method for T1 -> *FT' */
 	static int parseTPrime(int x) {
-		if (current.equals("*")) {
+		if (currentToken.equals("*")) {
 			next();
 			int z = parseF();
 			return parseTPrime(x*z);
-		} else if (current.equals("+") || current.equals(")") || current.equals("$")) {
+		} else if (currentToken.equals("+") || currentToken.equals(")") || currentToken.equals("$")) {
 			return x;
 		} else {
 			error();
@@ -115,10 +114,10 @@ public class LL1 {
    
   /* Method for F -> (E) */
   static int parseF() {
-  	if (current.equals("(")) {
+  	if (currentToken.equals("(")) {
   		next();
   		int x = parseE();
-  		if (current.equals(")")) {
+  		if (currentToken.equals(")")) {
   			next();
   			return x;
   		} else {
@@ -126,12 +125,12 @@ public class LL1 {
   			return -1;
   		}
   	} else try {
-  		int x = Integer.valueOf(current).intValue();
+  		int x = Integer.valueOf(currentToken).intValue();
 	    next();
 	    return x;
 		} catch(NumberFormatException e) {
 	    error();
-	    return -1; // to make compiler happy
+	    return -1;
 		}
   } 
 
@@ -144,8 +143,8 @@ public class LL1 {
 		tokenize(); // tokenize the input string
 		next();
 		int x = parseE(); // begin at root E
-		if(current.equals("$")) {
-		    System.out.println("OK "+ x);
+		if(currentToken.equals("$")) {
+		    System.out.println("Value of expression: "+ x);
 		} else {
 		    error();
 		} 
