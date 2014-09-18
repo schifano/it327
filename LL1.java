@@ -10,24 +10,16 @@ import java.lang.String;
 
 public class LL1 {
 
-		// PARSER - initialize variables 
-		/* Method that...does things */
-		String current = "";
-		public void next() {
-		}
+	// Initialize variables
+	static char tempChar = '\0';
+	static String tempInt = "";
+	static String expr = "";
+	static String current = "";
+	static String[] tempTokens = new String[100];
 
-
-	public static void main(String[] args) {
-
-		char tempChar = '\0';
-		String tempInt = "";
-		String[] tempTokens = new String[100];
-		// get input from the user
-		Scanner input = new Scanner(System.in);
-		String expr = input.next();
-		expr += "$"; // append $ to end of line
-
-		// loop through each character in the string
+	/* Method that creates a token array. */
+	static void tokenize() {
+		// loop through chars to store numbers and operators
 		int j = 0;
 		for(int i = 0; i < expr.length(); i++) {
 			tempChar = expr.charAt(i);
@@ -43,7 +35,6 @@ public class LL1 {
 				tempTokens[j++] = Character.toString(tempChar);
 			}
 		}
-
 		int size = 0;
 		for(int i = 0; i < tempTokens.length; i++) {
 			if (tempTokens[i] != null) {
@@ -53,7 +44,24 @@ public class LL1 {
 		String[] tokens = new String[size];
 		for(int i = 0; i < tokens.length; i++) {
 			tokens[i] = tempTokens[i];
-			System.out.println("TOKENS: " + tokens[i]);
+			System.out.println("TOKENS: HI HI HI HI " + tokens[i]); // TEST
 		}
+	}
+
+	// PARSER METHODS
+	/* Method that retrieves the next token to test*/
+	static void next() {
+
+	}
+
+
+	public static void main(String[] args) {
+		// Get input expression from the user
+		Scanner input = new Scanner(System.in);
+		expr = input.next();
+		expr += "$"; // append $ to end of line to indicate EOL
+		
+		tokenize(); // tokenize the input string
+
 	}
 }
